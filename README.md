@@ -263,7 +263,7 @@ aws ses verify-email-identity --email-address your@email.com
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/authmed.git
+git clone https://github.com/aryan-vijaykar/AuthMed.git
 cd authmed
 ```
 
