@@ -1,0 +1,50 @@
+service: authmed-backend
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ${env:AWS_REGION, 'us-east-1'}
+  environment:
+    JWT_SECRET: ${env:JWT_SECRET}
+    USERS_TABLE: ${env:USERS_TABLE}
+    MEDICINE_TABLE: ${env:MEDICINE_TABLE}
+    SES_SENDER_EMAIL: ${env:SES_SENDER_EMAIL}
+    AWS_REGION: ${env:AWS_REGION, 'us-east-1'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+          Resource:
+            - arn:aws:dynamodb:${env:AWS_REGION, 'us-east-1'}:*:table/${env:USERS_TABLE}
+            - arn:aws:dynamodb:${env:AWS_REGION, 'us-east-1'}:*:table/${env:MEDICINE_TABLE}
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+            - ses:SendRawEmail
+          Resource: "*"
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /
+          method: ANY
+
+plugins:
+  - serverless-dotenv-plugin
+
+package:
+  exclude:
+    - node_modules/nodemon/**
+    - .env
+    - "*.md"
