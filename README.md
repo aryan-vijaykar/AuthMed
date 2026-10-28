@@ -4,6 +4,31 @@ A cloud-native platform built on AWS for NGOs to securely manage and verify medi
 
 ---
 
+## The Problem
+
+NGOs that distribute medicines — food banks, health camps, disaster relief teams — manage their inventories using spreadsheets, paper registers, or nothing at all. This leads to:
+
+- **Medicine wastage** — expired stock goes unnoticed until it is too late to act
+- **No visibility** — staff have no real-time view of what is in stock and what is running low
+- **Manual effort** — tracking expiry dates across hundreds of medicines by hand is error-prone and time-consuming
+- **No access control** — anyone can edit a shared spreadsheet, making the data unreliable
+- **Zero alerts** — no one is notified when a medicine is about to expire
+
+For an NGO operating on a tight budget, wasted medicine is a direct cost and a failure to serve the people who need it most.
+
+## Our Solution
+
+AuthMed replaces spreadsheets with a secure, cloud-native platform purpose-built for NGO medicine management:
+
+- **Centralised inventory on AWS DynamoDB** — all medicine records stored in a scalable NoSQL database, accessible from anywhere
+- **Per-NGO data isolation** — every NGO logs in with a JWT-secured account and can only see their own medicines; no shared access, no data leakage
+- **Automated expiry alerts via AWS SES** — when a medicine is within 8 days of expiry, the system automatically sends an email alert so the NGO can act before stock is wasted
+- **Smart prioritisation with a Min-Heap** — medicines are ranked by expiry date using a DSA-based min-heap, surfacing the most urgent items instantly
+- **Serverless backend on AWS Lambda** — zero server management, scales automatically, and costs nothing when idle — ideal for NGOs with unpredictable usage
+- **One-click cloud deployment** — the entire backend deploys to Lambda + API Gateway with a single `npm run deploy` command via the Serverless Framework
+
+---
+
 ## Cloud Architecture
 
 AuthMed is built entirely on AWS managed services, eliminating the need for self-managed infrastructure:
